@@ -1,0 +1,21 @@
+import numpy
+
+data = []
+cdata = []
+prediction = []
+allowed_feature = [1,3,4,8]
+allowed_feature_testdata = [0,2,3,7]
+theta = []
+y = []
+outputlabel = 0
+repeat = 100
+alpha = 12.2
+regularisation = 0
+trainingset = '../csv/train.csv'
+testset = '../csv/test.csv'
+outputfile = './logistic_regression_output.csv'
+col_ = 0
+row_ = 0
+crow_ = 0
+ccol_ = 0
+cost = 0

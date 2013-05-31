@@ -1,0 +1,84 @@
+import numpy
+import sys
+
+def is_valid(val):
+    if val=='' or val==' ':
+        return False
+    return True
+
+def default_val():
+    return 0
+
+def reduce_features(row,col,feature,data):
+    
+    cdata = numpy.zeros((row,col+1))   # works only for integer and float, beware of STRINGS
+    
+    for i in range(0,row):
+        cdata[i][0] = 1
+        for j in range(0,col):
+            if is_valid(data[i][feature[j]]):
+                cdata[i][j+1] = data[i][feature[j]]
+            else:
+                cdata[i][j+1] = default_val()
+    return cdata
+
+def get_output_label(row,feature,data):
+    
+    label = numpy.zeros((row,1))   # works only for integer and float, beware of STRINGS
+    
+    for i in range(0,row):
+        label[i][0] = data[i][feature]
+    return label
+
+def get_output_label_modified(row,feature,data,start,end):
+    
+    label = numpy.zeros((row,1))   # works only for integer and float, beware of STRINGS
+    cnt = 0
+
+    for i in range(0,row):
+        cnt += 1
+        if cnt >= start and cnt<=end:
+            label[i][0] = data[i][feature]
+    return label
+
+def cabin(data,feature):
+    for i in range(0,data.shape[0]):
+        if data[i][feature] == "S":
+            data[i][feature] = 1
+        elif data[i][feature] == "C":
+            data[i][feature] = 0
+        else:
+            data[i][feature] = 2
+
+def gender(data,feature):
+    for i in range(0,data.shape[0]):
+        if data[i][feature] == "male":
+            data[i][feature] = -1
+        else:
+            data[i][feature] = 1
+
+def polynomial_feature_quadratic(data):
+    new_data = data
+    for i in range(1,data.shape[1]):
+        for j in range(i,data.shape[1]):
+            cdata = []
+            for k in range(0,data.shape[0]):
+                 cdata.append(data[k][i]*data[k][j])
+            cdata = numpy.array(cdata)
+            cdata = numpy.transpose(cdata)
+            new_data = numpy.transpose(numpy.vstack((numpy.transpose(new_data),cdata)))
+    return new_data
+
+def polynomial_feature_cubic(data):
+    new_data = data
+    for i in range(1,data.shape[1]):
+        for j in range(i,data.shape[1]):
+            for p in range(j,data.shape[1]):
+                cdata = []
+                for k in range(0,data.shape[0]):
+                     cdata.append(data[k][i]*data[k][j]*data[k][p])
+                cdata = numpy.array(cdata)
+                cdata = numpy.transpose(cdata)
+                new_data = numpy.transpose(numpy.vstack((numpy.transpose(new_data),cdata)))
+    return new_data
+

@@ -1,0 +1,21 @@
+import numpy
+import gradient
+import costfunction
+
+def logistic_regression(repeat,theta,cdata,y,alpha,regularisation = False, parameter = 0):
+    m = cdata.shape[0]
+    cost = 1000000000
+    for i in range(0,repeat):
+        if(i%10000==0):
+            print i/10000
+        grad = gradient.logistic_regression(theta,cdata,y)
+        if regularisation:
+            theta = theta*(1-((alpha*parameter)/m)) -(alpha)*grad
+        else:
+            theta = theta - (alpha)*grad
+        var = numpy.sum(costfunction.logistic_regression(theta,cdata,y,regularisation,parameter))
+        if var>cost:
+            print "ERROR : reduce learning rate"
+            break
+        cost = var
+    return theta,cost

@@ -1,0 +1,26 @@
+import numpy
+import csv
+
+def writecsv(prediction,outputfile,testset):
+    open_file_object = csv.writer(open(outputfile, "wb"))
+    test_file_obect = csv.reader(open(testset, 'rb'))
+
+    header = test_file_obect.next()
+    cnt=0
+
+    for row in test_file_obect:
+        row.insert(0,str((int)(prediction[cnt][0])))
+        open_file_object.writerow(row)
+        cnt = cnt + 1
+
+def writecsv_modified(prediction,outputfile,testset):
+    open_file_object = csv.writer(open(outputfile, "wb"))
+    test_file_obect = csv.reader(open(testset, 'rb'))
+
+    header = test_file_obect.next()
+    cnt=0
+
+    for row in test_file_obect:
+        row.insert(0,str((int)(prediction[cnt][0])))
+        open_file_object.writerow(row)
+        cnt = cnt + 1
